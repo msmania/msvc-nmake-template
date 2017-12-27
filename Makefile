@@ -7,6 +7,8 @@ ARCH=x86
 OUTDIR=bin\$(ARCH)
 OBJDIR=obj\$(ARCH)
 SRCDIR=src
+GTEST_SRC_DIR=G:\10_Git\googletest
+GTEST_BUILD_DIR=G:\10_Git\googletest\build\$(ARCH)
 
 CC=cl
 RD=rd /s /q
@@ -18,6 +20,8 @@ OBJS=\
 	$(OBJDIR)\main.obj\
 
 LIBS=\
+	gtest_main.lib\
+	gmock.lib\
 
 # warning C4100: unreferenced formal parameter
 CFLAGS=\
@@ -29,12 +33,16 @@ CFLAGS=\
 	/EHsc\
 	/Fo"$(OBJDIR)\\"\
 	/Fd"$(OBJDIR)\\"\
+	/I"$(GTEST_SRC_DIR)\googletest\include"\
+	/I"$(GTEST_SRC_DIR)\googlemock\include"\
 	/wd4100\
 
 LFLAGS=\
 	/NOLOGO\
 	/DEBUG\
 	/SUBSYSTEM:CONSOLE\
+	/LIBPATH:"$(GTEST_BUILD_DIR)\googlemock\Release"\
+	/LIBPATH:"$(GTEST_BUILD_DIR)\googlemock\gtest\Release"\
 
 all: $(OUTDIR)\$(TARGET)
 

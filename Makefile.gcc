@@ -1,0 +1,44 @@
+OUTDIR=bin
+OBJDIR=obj
+SRCDIR=src
+GTEST_SRC_DIR=/data/src/googletest
+GTEST_BUILD_DIR=/data/src/googletest/build
+
+CC=g++
+RM=rm
+LINKER=g++
+TARGET=t
+
+SRCS=$(wildcard $(SRCDIR)/*.cpp)
+OBJS=$(addprefix $(OBJDIR)/, $(notdir $(SRCS:.cpp=.o)))
+
+LIBS=\
+	-lgtest_main\
+	-lgmock\
+	-lpthread\
+
+CFLAGS=\
+	-c\
+	-O0\
+	-Wall\
+	-g\
+	-std=c++11\
+	-I"$(GTEST_SRC_DIR)/googletest/include"\
+	-I"$(GTEST_SRC_DIR)/googlemock/include"\
+
+LFLAGS=\
+	-L"$(GTEST_BUILD_DIR)/googlemock"\
+	-L"$(GTEST_BUILD_DIR)/googlemock/gtest"\
+
+all: $(OUTDIR)/$(TARGET)
+
+$(OBJDIR)/%.o: $(SRCS)
+	@[ -d $(OBJDIR) ] || mkdir -p $(OBJDIR)
+	$(CC) $(CFLAGS) -o $@ -c $<
+
+$(OUTDIR)/$(TARGET): $(OBJS)
+	@[ -d $(OUTDIR) ] || mkdir -p $(OUTDIR)
+	$(LINKER) $(LFLAGS) $(LIBDIRS) $^ -o $@ $(LIBS)
+
+clean:
+	$(RM) $(OBJS) $(OUTDIR)/$(TARGET)

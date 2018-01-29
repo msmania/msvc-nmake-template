@@ -18,10 +18,12 @@ TARGET=t.exe
 
 OBJS=\
 	$(OBJDIR)\main.obj\
+	$(OBJDIR)\mainwindow.obj\
 
 LIBS=\
-	gtest_main.lib\
 	gmock.lib\
+	user32.lib\
+	ole32.lib\
 
 # warning C4100: unreferenced formal parameter
 CFLAGS=\
@@ -31,6 +33,7 @@ CFLAGS=\
 	/W4\
 	/Zi\
 	/EHsc\
+	/DUNICODE\
 	/Fo"$(OBJDIR)\\"\
 	/Fd"$(OBJDIR)\\"\
 	/I"$(GTEST_SRC_DIR)\googletest\include"\

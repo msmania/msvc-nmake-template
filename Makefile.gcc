@@ -32,7 +32,7 @@ LFLAGS=\
 
 all: $(OUTDIR)/$(TARGET)
 
-$(OBJDIR)/%.o: $(SRCS)
+$(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 	@[ -d $(OBJDIR) ] || mkdir -p $(OBJDIR)
 	$(CC) $(CFLAGS) -o $@ -c $<
 

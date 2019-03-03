@@ -27,7 +27,7 @@ public:
 
   BaseWindow() : hwnd_(nullptr) {}
 
-  bool Create(PCWSTR caption,
+  bool Create(LPCTSTR caption,
               DWORD style,
               DWORD style_ex = 0,
               int x = CW_USEDEFAULT,
@@ -35,9 +35,9 @@ public:
               int width = CW_USEDEFAULT,
               int height = CW_USEDEFAULT,
               HWND parent = nullptr,
-              LPCWSTR menu = nullptr) {
+              LPCTSTR menu = nullptr) {
     if (!windowclass) {
-      WNDCLASSEXW wcex{};
+      WNDCLASSEX wcex{};
       wcex.cbSize = sizeof(wcex);
       wcex.style = CS_HREDRAW | CS_VREDRAW;
       wcex.lpfnWndProc = DERIVED_TYPE::WindowProc;
@@ -46,7 +46,7 @@ public:
       wcex.hbrBackground = reinterpret_cast<HBRUSH>(COLOR_WINDOW + 1);
       wcex.lpszMenuName = menu;
       wcex.lpszClassName = ClassName();
-      windowclass = RegisterClassExW(&wcex);
+      windowclass = RegisterClassEx(&wcex);
     }
     if (!hwnd_) {
       hwnd_ = CreateWindowEx(style_ex,
@@ -67,7 +67,7 @@ public:
   }
 
 protected:
-  virtual LPCWSTR ClassName() const = 0;
+  virtual LPCTSTR ClassName() const = 0;
   virtual LRESULT HandleMessage(UINT, WPARAM, LPARAM) = 0;
 
 private:

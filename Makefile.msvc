@@ -7,12 +7,12 @@ ARCH=x86
 OUTDIR=bin\$(ARCH)
 OBJDIR=obj\$(ARCH)
 SRCDIR=src
-GTEST_SRC_DIR=G:\10_Git\googletest
-GTEST_BUILD_DIR=G:\10_Git\googletest\build\$(ARCH)
+GTEST_SRC_DIR=D:\src\googletest
+GTEST_BUILD_DIR=D:\src\googletest\build\$(ARCH)
 
 CC=cl
-RD=rd /s /q
-RM=del /q
+RD=rd/s/q
+RM=del/q
 LINKER=link
 TARGET=t.exe
 
@@ -25,27 +25,25 @@ LIBS=\
 	user32.lib\
 	ole32.lib\
 
-# warning C4100: unreferenced formal parameter
 CFLAGS=\
 	/nologo\
 	/c\
-	/O2\
+	/Od\
 	/W4\
 	/Zi\
 	/EHsc\
 	/DUNICODE\
+	/D_UNICODE\
 	/Fo"$(OBJDIR)\\"\
 	/Fd"$(OBJDIR)\\"\
 	/I"$(GTEST_SRC_DIR)\googletest\include"\
 	/I"$(GTEST_SRC_DIR)\googlemock\include"\
-	/wd4100\
 
 LFLAGS=\
 	/NOLOGO\
 	/DEBUG\
 	/SUBSYSTEM:CONSOLE\
-	/LIBPATH:"$(GTEST_BUILD_DIR)\googlemock\Release"\
-	/LIBPATH:"$(GTEST_BUILD_DIR)\googlemock\gtest\Release"\
+	/LIBPATH:"$(GTEST_BUILD_DIR)\lib\Release"\
 
 all: $(OUTDIR)\$(TARGET)
 

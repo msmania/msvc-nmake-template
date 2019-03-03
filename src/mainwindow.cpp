@@ -1,6 +1,16 @@
+#include <tchar.h>
 #include <windows.h>
 #include <memory>
 #include "basewindow.h"
+
+void Log(LPCTSTR format, ...) {
+  TCHAR linebuf[1024];
+  va_list v;
+  va_start(v, format);
+  va_end(v);
+  wvsprintf(linebuf, format, v);
+  OutputDebugString(linebuf);
+}
 
 class MainWindow : public BaseWindow<MainWindow> {
 private:
@@ -9,8 +19,8 @@ private:
   }
 
 public:
-  LPCWSTR ClassName() const {
-    return L"MainWindow";
+  LPCTSTR ClassName() const {
+    return _T("MainWindow");
   }
 
   LRESULT HandleMessage(UINT msg, WPARAM w, LPARAM l) {
@@ -36,7 +46,7 @@ int UIThreadMain() {
   const auto flags = COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE;
   if (SUCCEEDED(CoInitializeEx(nullptr, flags))) {
     if (auto p = std::make_unique<MainWindow>()) {
-      if (p->Create(L"MainWindow",
+      if (p->Create(_T("MainWindow Title"),
                     WS_OVERLAPPEDWINDOW,
                     /*style_ex*/0,
                     CW_USEDEFAULT, 0,

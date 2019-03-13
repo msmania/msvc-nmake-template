@@ -7,8 +7,8 @@ void Log(LPCTSTR format, ...) {
   TCHAR linebuf[1024];
   va_list v;
   va_start(v, format);
-  va_end(v);
   wvsprintf(linebuf, format, v);
+  va_end(v);
   OutputDebugString(linebuf);
 }
 

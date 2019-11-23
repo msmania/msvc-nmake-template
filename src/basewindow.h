@@ -26,6 +26,7 @@ public:
   }
 
   BaseWindow() : hwnd_(nullptr) {}
+  virtual ~BaseWindow() {}
 
   bool Create(LPCTSTR caption,
               DWORD style,

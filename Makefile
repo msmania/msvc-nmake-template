@@ -1,1 +1,1 @@
-Makefile.msvc
+Makefile.clang-win

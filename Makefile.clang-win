@@ -1,0 +1,76 @@
+!IF "$(PLATFORM)"=="X64" || "$(PLATFORM)"=="x64"
+ARCH=amd64
+CPU=x86-64
+TRIPLE=x86_64-pc-windows-msvc19.23.28106
+!ELSE
+ARCH=x86
+CPU=pentium4
+TRIPLE=i386-pc-windows-msvc19.23.28106
+!ENDIF
+
+OUTDIR=bin\$(ARCH)
+OBJDIR=obj\$(ARCH)
+SRCDIR=src
+GTEST_SRC_DIR=D:\src\googletest
+GTEST_BUILD_DIR=D:\src\googletest\build\$(ARCH)
+
+MSVCDIR=C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC
+VCINCLUDE=$(MSVCDIR)\Tools\MSVC\14.23.28105
+WIN10KITINCLUDE=C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0
+
+RD=rd/s/q
+RM=del/q
+CC=$(MSVCDIR)\Tools\Llvm\bin\clang++.exe
+LINKER=$(MSVCDIR)\Tools\Llvm\bin\lld-link.exe
+TARGET=t.exe
+
+OBJS=\
+	$(OBJDIR)\main.obj\
+	$(OBJDIR)\mainwindow.obj\
+
+LIBS=\
+	gmock.lib\
+	user32.lib\
+	ole32.lib\
+
+CFLAGS=\
+	-cc1\
+	-emit-obj\
+	-std=c++14\
+	-O2\
+	-Wall\
+	-triple $(TRIPLE)\
+	-target-cpu $(CPU)\
+	--dependent-lib=msvcrt\
+	-internal-isystem "$(VCINCLUDE)\include"\
+	-internal-isystem "$(VCINCLUDE)\atlmfc\include"\
+	-internal-isystem "$(WIN10KITINCLUDE)\shared"\
+	-internal-isystem "$(WIN10KITINCLUDE)\um"\
+	-internal-isystem "$(WIN10KITINCLUDE)\winrt"\
+	-internal-isystem "$(WIN10KITINCLUDE)\ucrt"\
+	-internal-isystem "$(GTEST_SRC_DIR)\googletest\include"\
+	-internal-isystem "$(GTEST_SRC_DIR)\googlemock\include"\
+	-fms-compatibility\
+	-fms-compatibility-version=19.23.28106\
+	-DUNICODE\
+	-D_UNICODE\
+
+LFLAGS=\
+	-debug\
+	-SUBSYSTEM:CONSOLE,6.01\
+	-LIBPATH:"$(GTEST_BUILD_DIR)\lib\Release"\
+
+all: $(OUTDIR)\$(TARGET)
+
+$(OUTDIR)\$(TARGET): $(OBJS)
+	@if not exist $(OUTDIR) mkdir $(OUTDIR)
+	"$(LINKER)" $(LFLAGS) $(LIBS) /pdb:"$(@R).pdb" /out:$@ $**
+
+{$(SRCDIR)}.cpp{$(OBJDIR)}.obj:
+	@if not exist $(OBJDIR) mkdir $(OBJDIR)
+	"$(CC)" $(CFLAGS) -o $@ $<
+
+clean:
+	@if exist $(OBJDIR) $(RD) $(OBJDIR)
+	@if exist $(OUTDIR)\$(TARGET) $(RM) $(OUTDIR)\$(TARGET)
+	@if exist $(OUTDIR)\$(TARGET:exe=pdb) $(RM) $(OUTDIR)\$(TARGET:exe=pdb)

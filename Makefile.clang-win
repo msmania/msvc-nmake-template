@@ -52,8 +52,42 @@ CFLAGS=\
 	-internal-isystem "$(GTEST_SRC_DIR)\googlemock\include"\
 	-fms-compatibility\
 	-fms-compatibility-version=19.23.28106\
-	-DUNICODE\
-	-D_UNICODE\
+	-debug-info-kind=limited\
+	-gcodeview\
+#	-MP\
+#	-cfguard\
+#	-disable-free\
+#	-disable-llvm-verifier\
+#	-discard-value-names\
+#	-faddrsig\
+#	-fdata-sections\
+#	-fdelayed-template-parsing\
+#	-fdeprecated-macro\
+#	-fdiagnostics-format msvc\
+#	-fdiagnostics-show-option\
+#	-ferror-limit 19\
+#	-ffunction-sections\
+#	-fmath-errno\
+#	-fmessage-length 0\
+#	-fms-extensions\
+#	-fms-volatile\
+#	-fno-rtti-data\
+#	-fno-use-cxa-atexit\
+#	-fobjc-runtime=gcc\
+#	-masm-verbose\
+#	-mconstructor-aliases\
+#	-mincremental-linker-compatible\
+#	-mllvm -x86-asm-syntax=intel\
+#	-momit-leaf-frame-pointer\
+#	-mrelocation-model pic\
+#	-mthread-model posix\
+#	-munwind-tables\
+#	-pic-level 2\
+#	-relaxed-aliasing\
+#	-stack-protector 2\
+#	-vectorize-loops\
+#	-vectorize-slp\
+#	-x c++\
 
 LFLAGS=\
 	-debug\

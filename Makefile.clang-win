@@ -14,14 +14,15 @@ SRCDIR=src
 GTEST_SRC_DIR=D:\src\googletest
 GTEST_BUILD_DIR=D:\src\googletest\build\$(ARCH)
 
+CLANGDIR=D:\llvm\LLVM-9.0.0-win64
 MSVCDIR=C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC
 VCINCLUDE=$(MSVCDIR)\Tools\MSVC\14.23.28105
 WIN10KITINCLUDE=C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0
 
 RD=rd/s/q
 RM=del/q
-CC=$(MSVCDIR)\Tools\Llvm\bin\clang++.exe
-LINKER=$(MSVCDIR)\Tools\Llvm\bin\lld-link.exe
+CC=$(CLANGDIR)\bin\clang++.exe
+LINKER=$(CLANGDIR)\bin\lld-link.exe
 TARGET=t.exe
 
 OBJS=\
@@ -42,6 +43,7 @@ CFLAGS=\
 	-triple $(TRIPLE)\
 	-target-cpu $(CPU)\
 	--dependent-lib=msvcrt\
+	-internal-isystem "$(CLANGDIR)\lib\clang\9.0.0\include"\
 	-internal-isystem "$(VCINCLUDE)\include"\
 	-internal-isystem "$(VCINCLUDE)\atlmfc\include"\
 	-internal-isystem "$(WIN10KITINCLUDE)\shared"\

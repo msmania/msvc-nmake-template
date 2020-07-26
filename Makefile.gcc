@@ -14,6 +14,7 @@ OBJS=$(addprefix $(OBJDIR)/, $(notdir $(SRCS:.cpp=.o)))
 
 LIBS=\
 	-lgtest_main\
+	-lgtest\
 	-lgmock\
 	-lpthread\
 
@@ -27,8 +28,7 @@ CFLAGS=\
 	-I"$(GTEST_SRC_DIR)/googlemock/include"\
 
 LFLAGS=\
-	-L"$(GTEST_BUILD_DIR)/googlemock"\
-	-L"$(GTEST_BUILD_DIR)/googlemock/gtest"\
+	-L"$(GTEST_BUILD_DIR)/lib"\
 
 all: $(OUTDIR)/$(TARGET)
 

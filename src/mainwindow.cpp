@@ -1,6 +1,7 @@
+#ifdef WIN32
+#include <memory>
 #include <tchar.h>
 #include <windows.h>
-#include <memory>
 #include "basewindow.h"
 
 void Log(LPCTSTR format, ...) {
@@ -11,7 +12,6 @@ void Log(LPCTSTR format, ...) {
   va_end(v);
   OutputDebugString(linebuf);
 }
-
 class MainWindow : public BaseWindow<MainWindow> {
 private:
   bool InitWindow() {
@@ -41,8 +41,10 @@ public:
     return ret;
   }
 };
+#endif // WIN32
 
 int UIThreadMain() {
+#ifdef WIN32
   const auto flags = COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE;
   if (SUCCEEDED(CoInitializeEx(nullptr, flags))) {
     if (auto p = std::make_unique<MainWindow>()) {
@@ -61,5 +63,6 @@ int UIThreadMain() {
     }
     CoUninitialize();
   }
+#endif // WIN32
   return 0;
 }
